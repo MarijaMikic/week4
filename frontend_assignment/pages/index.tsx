@@ -5,10 +5,25 @@ import { providers } from "ethers"
 import Head from "next/head"
 import React from "react"
 import styles from "../styles/Home.module.css"
+import { useForm } from "react-hook-form"
+import { yupResolver } from '@hookform/resolvers/yup'
+import * as yup from "yup"
+
+
+const sema = yup.object({
+    ime: yup.string().required(),
+    godine: yup.number().positive().integer().required(),
+    adresa: yup.string().required(),
+  }).required()
 
 export default function Home() {
     const [logs, setLogs] = React.useState("Connect your wallet and greet!")
-
+    const { register, handleSubmit } = useForm({
+        resolver: yupResolver(sema)
+      });
+    
+    
+  
     async function greet() {
         setLogs("Creating your Semaphore identity...")
 
@@ -58,7 +73,9 @@ export default function Home() {
             setLogs("Your anonymous greeting is onchain :)")
         }
     }
-
+    function onSubmit(data: Record <string, any>) {
+        console.log(JSON.stringify(data));
+    }
     return (
         <div className={styles.container}>
             <Head>
@@ -77,6 +94,16 @@ export default function Home() {
                 <div onClick={() => greet()} className={styles.button}>
                     Greet
                 </div>
+                <form onSubmit={handleSubmit(onSubmit)}>
+                <p>Name</p>
+                <input style={{backgroundColor :"grey"}} {...register("ime", { required: true})} />
+                <p>Age</p>
+                <input style={{backgroundColor :"grey"}} {...register("godine", { required: true})} />
+                <p>Address</p>
+                <input style={{backgroundColor :"grey"}} {...register("adresa", { required: true})} />
+                <p></p>
+                <input style={{backgroundColor :"green"}} type="submit"/>
+                </form>
             </main>
         </div>
     )
