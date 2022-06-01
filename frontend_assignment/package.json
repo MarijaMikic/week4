@@ -17,6 +17,9 @@
         "lint": "next lint"
     },
     "dependencies": {
+        "@emotion/react": "^11.9.0",
+        "@emotion/styled": "^11.8.1",
+        "@hookform/resolvers": "^2.8.10",
         "@metamask/detect-provider": "^1.2.0",
         "@mui/material": "^5.8.1",
         "@zk-kit/identity": "^1.4.1",
